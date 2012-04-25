@@ -73,6 +73,7 @@ GEM
     vegas (0.1.11)
       rack (>= 1.0.0)
     webrobots (0.0.13)
+    yajl-ruby (1.1.0)
 
 PLATFORMS
   ruby
@@ -85,3 +86,4 @@ DEPENDENCIES
   redis (~> 2.2.2)
   resque
   slim
+  yajl-ruby
