@@ -1,9 +1,12 @@
 h4 = "ISBN #{isbn}"
 
-p#error style='display:none' An error occurred
-
-div#prices.well
-  ul.unstyled
+div.content-inner
+  p#error style='display:none' An error occurred
+  div.message
+    h1
+      | Checking Prices <img src='/images/indicator.gif' id='indicator'/>
+  div#prices.well
+    ul.unstyled
 
 javascript:
   var isbn = '#{isbn}';

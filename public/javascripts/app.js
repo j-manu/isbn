@@ -49,13 +49,17 @@ function poll() {
       } else if(data.status == 'progress') {
         process(data.prices);
       }
-      if(callRemote) {window.setTimeout(poll,100)}
+      if(callRemote) {
+        window.setTimeout(poll,100)
+      } else {
+        $('.message h1').html('Prices');
+      }
     }
   });
 }
 
 function process(prices) {
-  $('#prices ul').html('');
+  $('#prices ul').html('<li class="header"><span class="store">Store</span><span class="price">Price</span></li>');
   $.each(prices, function(k,v) {
     $('<li><span class="store"><a href="'+v.url+'" target="_blank">'+v.store+'</a></span><span class="price">'+v.price+'</span></li>').appendTo('#prices ul');
   });

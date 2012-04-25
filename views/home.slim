@@ -1,2 +1,19 @@
-h1 Book Price Comparison
+div.content-inner
+
+  div.message
+    h1
+      | Find the best deal ....
+
+  div#isbn-form
+    input name='isbn' type='text' placeholder='Enter an ISBN'
+    button id='isbn-submit' class='btn btn-primary' Get Prices
+
+javascript:
+  $('#isbn-submit').click(function() {
+    var isbn = $('#isbn-form input[name=isbn]').val();
+    if(isbn != '') {
+      window.location.href = 'http://' + window.location.host + '/isbn/' + isbn +'/price';
+    }
+    return false;
+  });
 
