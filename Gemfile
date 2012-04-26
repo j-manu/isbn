@@ -16,3 +16,6 @@ group :app do
   gem 'redis', '~> 2.2.2', require: ['redis/connection/synchrony', 'redis']
 end
 
+group :deployment do
+  gem 'foreman'
+end

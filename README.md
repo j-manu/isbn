@@ -1,17 +1,13 @@
 Compare book prices across Indian ecommerce sites.
 
-Parsing code based on Swaroop's isbn.net.in code - https://github.com/swaroopch/isbnnetin
+Parsing code based on Swaroop's isbn.net.in - https://github.com/swaroopch/isbnnetin
 
-Worker
+Getting it up and running
 ------
 
 ```ruby
-VERBOSE=1 QUEUE=fetch bundle exec rake resque:start
+  bundle install
+  foreman start
 ```
 
-Server
-------
-
-```ruby
-bundle exec ruby app.rb -sv -e production
-```
+Then visit http://localhost:9000
