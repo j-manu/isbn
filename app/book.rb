@@ -77,7 +77,7 @@ class Book < Struct.new(:isbn, :redis)
     # insert into queue instead of using Resque.enqueue
     redis.sadd 'isbn:queues', 'fetch'
     Store::STORES.keys.each do |store_name|
-      redis.rpush('isbn:queue:fetch', {class: 'Fetch', args: [isbn.to_s, store_name.to_s]}.to_json)
+      redis.rpush('isbn:queue:fetch', {class: 'Fetcher', args: [isbn.to_s, store_name.to_s]}.to_json)
     end
   end
 

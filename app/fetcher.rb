@@ -1,7 +1,7 @@
 require 'book'
 require 'store'
 
-class Fetch
+class Fetcher
   @queue = :fetch
 
   def self.perform(isbn, store_name)
