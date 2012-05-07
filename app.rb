@@ -15,7 +15,7 @@ class ISBN < Goliath::API
   def response(env)
     if isbn = Book.is_isbn?(params[:isbn])
       if isbn == params[:isbn]
-        Store.fetch_prices(env.config['redis'], params[:isbn])
+        Book.new(params[:isbn], env.config['redis']).fetch_prices
         [200, {}, slim(:isbn, views: Goliath::Application.root_path('views'),
                        locals: {isbn: params[:isbn], num_stores: Store.num_stores })]
       else

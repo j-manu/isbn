@@ -27,28 +27,68 @@ class Book < Struct.new(:isbn, :redis)
     end
   end
 
-  def key
-    redis.respond_to?(:namespace) ? isbn : "isbn:#{isbn}"
-  end
+  %w(info status num_stores).each do |attr|
+    define_method attr do
+      redis.hget key, attr
+    end
 
-  def prices_key
-    key + ':prices'
+    define_method "#{attr}=" do |val|
+      redis.hset key, attr, val
+    end
   end
 
   def cache_price(price, store_name, url)
     redis.sadd prices_key, {store: store_name, url: url, price: price ? price : nil}.to_json
+    if num_prices == Store.num_stores
+      self.status = 'complete'
+      # cache for 1 day
+      redis.expire prices_key, 86400
+    end
+  end
+
+  def num_prices
+    redis.smembers(prices_key).size
   end
 
   def prices(current_stores=0)
     prices = redis.smembers(prices_key)
     prices = prices.map {|p| MultiJson.load p}.sort_by {|v| v['price']}
-    num_stores = prices.size
-    status = num_stores == Store.num_stores ? 'complete' : (num_stores == current_stores ? 'fetching' : 'progress')
+    fetched_stores = prices.size
+    status = fetched_stores == Store.num_stores ? 'complete' : (fetched_stores == current_stores ? 'fetching' : 'progress')
     {status: status, prices: prices}
   end
 
   def delete_prices
     redis.del(prices_key)
+  end
+
+  def fetch_prices
+    # storing num_stores per book so that if more stores are added
+    # prices are fetched again
+    return if (status == 'complete' && num_stores.to_i == Store.num_stores &&
+                num_prices == Store.num_stores) || status == 'fetching'
+
+    self.status = 'fetching'
+    self.num_stores = Store.num_stores
+    delete_prices
+
+    # because resque craps out when async redis is used we have to manually
+    # insert into queue instead of using Resque.enqueue
+    redis.sadd 'isbn:queues', 'fetch'
+    Store::STORES.keys.each do |store_name|
+      redis.rpush('isbn:queue:fetch', {class: 'Fetch', args: [isbn.to_s, store_name.to_s]}.to_json)
+    end
+  end
+
+  private
+
+  def key
+    redis.respond_to?(:namespace) ? isbn : "isbn:#{isbn}"
+  end
+
+
+  def prices_key
+    key + ':prices'
   end
 
 end
