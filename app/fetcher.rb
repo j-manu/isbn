@@ -13,6 +13,7 @@ class Fetcher
       agent = ::Mechanize.new { |agent|
         agent.open_timeout   = 5
         agent.read_timeout   = 5
+        agent.follow_meta_refresh = true
       }
       page = agent.get(url)
       price = Store.parse_price(page.search(store[:pattern]).text)

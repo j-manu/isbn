@@ -14,3 +14,5 @@ Then visit http://localhost:9000
 
 WARNING: This app was built to learn Goliath. Hence some code is
 non-idiomatic :)
+
+A live version can be accessed at http://isbn.startupgang.com

@@ -11,7 +11,19 @@ class Store
               pattern: 'div.ourPrice'},
             crossword: {
               url: 'http://www.crossword.in/books/search?q=[isbn]',
-              pattern: '.variant-final-price'}
+              pattern: '.variant-final-price'},
+            rediff: {
+              url: 'http://books.rediff.com/book/ISBN:[isbn]',
+              pattern: 'font#book-pric b'},
+            indiaplaza: {
+              url: 'http://www.indiaplaza.com/searchproducts.aspx?sn=books&q=[isbn]',
+              pattern: 'div.ourPrice'},
+            landmark: {
+              url: 'http://www.landmarkonthenet.com/product/SearchPaging.aspx?code=[isbn]&type=0&num=0',
+              pattern: '.price .current-price'},
+            homeshop18: {
+              url: 'http://www.homeshop18.com/search:[isbn]/',
+              pattern: '.pdp_details_price .pdp_details_hs18Price'}
            }
 
   class << self
