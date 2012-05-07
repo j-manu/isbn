@@ -35,6 +35,8 @@ class Poll < Goliath::API
 
   def process_request
     i = 0
+    # not idiomatic but much simpler to handle in js
+    # than streaming
     while i < 50
       prices = Book.new(params[:isbn], config['redis']).prices(params[:stores].to_i)
       break if prices[:status] != 'fetching'

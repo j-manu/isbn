@@ -11,3 +11,6 @@ Getting it up and running
 ```
 
 Then visit http://localhost:9000
+
+WARNING: This app was built to learn Goliath. Hence some code is
+non-idiomatic :)
