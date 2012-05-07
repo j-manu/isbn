@@ -19,6 +19,7 @@ class Fetcher
     rescue
       price = nil
     end
+    store_name = store[:name] || store_name.titleize
     book.cache_price(price, store_name, url)
   end
 end

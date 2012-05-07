@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 gem 'rake'
 gem 'hiredis', '~> 0.4.5'
 gem 'yajl-ruby', require: ['yajl', 'yajl/json_gem']
+gem 'activesupport', '~> 3.2', require: ['active_support/core_ext/object/blank',
+                                          'active_support/core_ext/string/inflections']
 
 group :resque do
   gem 'redis', '~> 2.2.2'

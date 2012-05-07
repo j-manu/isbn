@@ -38,7 +38,7 @@ class Book < Struct.new(:isbn, :redis)
   end
 
   def cache_price(price, store_name, url)
-    redis.sadd prices_key, {store: store_name, url: url, price: price ? price : nil}.to_json
+    redis.sadd prices_key, {store: store_name, url: url, price: price.presence}.to_json
     if num_prices == Store.num_stores
       self.status = 'complete'
       # cache for 1 day
