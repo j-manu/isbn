@@ -52,7 +52,8 @@ class Book < Struct.new(:isbn, :redis)
 
   def prices(current_stores=0)
     prices = redis.smembers(prices_key)
-    prices = prices.map {|p| MultiJson.load p}.sort_by {|v| v['price']}
+    # hack. if the price is nil, give sort a large number so it ranks in the bottom.
+    prices = prices.map {|p| MultiJson.load p}.sort_by {|v| v['price'] || 999999999999}
     fetched_stores = prices.size
     status = fetched_stores == Store.num_stores ? 'complete' : (fetched_stores == current_stores ? 'fetching' : 'progress')
     {status: status, prices: prices}

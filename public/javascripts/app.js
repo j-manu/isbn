@@ -61,7 +61,8 @@ function poll() {
 function process(prices) {
   $('#prices ul').html('<li class="header"><span class="store">Store</span><span class="price">Price</span></li>');
   $.each(prices, function(k,v) {
-    $('<li><span class="store"><a href="'+v.url+'" target="_blank">'+v.store+'</a></span><span class="price">'+v.price+'</span></li>').appendTo('#prices ul');
+    var price = v.price ? 'Rs. ' + v.price : 'Unavailable';
+    $('<li><span class="store"><a href="'+v.url+'" target="_blank">'+v.store+'</a></span><span class="price">'+price+'</span></li>').appendTo('#prices ul');
   });
   currentStores = _.size(prices);
 }
