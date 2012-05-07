@@ -15,11 +15,11 @@ class ISBN < Goliath::API
   def response(env)
     if isbn = Book.is_isbn?(params[:isbn])
       if isbn == params[:isbn]
-        Book.new(params[:isbn], env.config['redis']).fetch_prices
+        Book.new(params[:isbn], config['redis']).fetch_prices
         [200, {}, slim(:isbn, views: Goliath::Application.root_path('views'),
                        locals: {isbn: params[:isbn], num_stores: Store.num_stores })]
       else
-        [301, {'Location' => "#{env.config['host']}/isbn/#{isbn}/price"}, '']
+        [301, {'Location' => "#{config['host']}/isbn/#{isbn}/price"}, '']
       end
     else
         [400, {}, slim(:error, views: Goliath::Application.root_path('views'),
@@ -36,7 +36,7 @@ class Poll < Goliath::API
   def process_request
     i = 0
     while i < 50
-      prices = Book.new(env.params[:isbn], env.config['redis']).prices(env.params[:stores].to_i)
+      prices = Book.new(params[:isbn], config['redis']).prices(params[:stores].to_i)
       break if prices[:status] != 'fetching'
       i += 1
       EM::Synchrony.sleep(1)
