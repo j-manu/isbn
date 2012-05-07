@@ -13,9 +13,18 @@ class ISBN < Goliath::API
   use Goliath::Rack::Validation::RequiredParam, {key: :isbn}
 
   def response(env)
-    Store.fetch_prices(env.config['redis'], params[:isbn])
-    [200, {}, slim(:isbn, views: Goliath::Application.root_path('views'),
-                   locals: {isbn: params[:isbn], num_stores: Store.num_stores })]
+    if isbn = Book.is_isbn?(params[:isbn])
+      if isbn == params[:isbn]
+        Store.fetch_prices(env.config['redis'], params[:isbn])
+        [200, {}, slim(:isbn, views: Goliath::Application.root_path('views'),
+                       locals: {isbn: params[:isbn], num_stores: Store.num_stores })]
+      else
+        [301, {'Location' => "#{env.config['host']}/isbn/#{isbn}/price"}, '']
+      end
+    else
+        [400, {}, slim(:error, views: Goliath::Application.root_path('views'),
+                       locals: {message: 'ISBN provided is invalid'})]
+    end
   end
 end
 
