@@ -73,8 +73,9 @@ class Book < Struct.new(:isbn, :redis)
     self.num_stores = Store.num_stores
     delete_prices
 
-    # because resque craps out when async redis is used we have to manually
-    # insert into queue instead of using Resque.enqueue
+    # we have to manually insert into queue instead of using Sidekiq
+    # because Sidekiq won't be able to deal with async redis being used
+    # by goliath
     redis.sadd 'isbn:queues', 'fetch'
     Store::STORES.keys.each do |store_name|
       redis.rpush('isbn:queue:fetch', {class: 'Fetcher', args: [isbn.to_s, store_name.to_s]}.to_json)
