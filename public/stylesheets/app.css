@@ -18,7 +18,7 @@ body {
 }
 
 .content-inner {
-  margin: 50px;
+  margin: 30px 0;
   background-color: #fff;
   padding: 20px 20px 50px 20px;
   border-radius: 10px;
@@ -83,7 +83,6 @@ body {
 #footer {
   color: #fff;
   text-align: center;
-  padding: 20px 20px 50px 20px;
 }
 
 #footer .spacer {
