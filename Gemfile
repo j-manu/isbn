@@ -6,9 +6,9 @@ gem 'yajl-ruby', require: ['yajl', 'yajl/json_gem']
 gem 'activesupport', '~> 3.2', require: ['active_support/core_ext/object/blank',
                                           'active_support/core_ext/string/inflections']
 
-group :resque do
+group :sidekiq do
   gem 'redis', '~> 2.2.2'
-  gem 'resque'
+  gem 'sidekiq'
   gem 'mechanize'
 end
 

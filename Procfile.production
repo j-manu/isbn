@@ -1,2 +1,2 @@
 web: bundle exec ruby app.rb -l log/production.log -e production -p $PORT
-worker: env QUEUE=fetch bundle exec rake resque:start
+worker: bundle exec sidekiq -r ./config/sidekiq.rb

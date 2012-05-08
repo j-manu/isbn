@@ -18,7 +18,7 @@ body {
 }
 
 .content-inner {
-  margin-top: 50px;
+  margin: 50px;
   background-color: #fff;
   padding: 20px 20px 50px 20px;
   border-radius: 10px;
@@ -80,3 +80,13 @@ body {
   font-weight: bold;
 }
 
+#footer {
+  color: #fff;
+  text-align: center;
+  padding: 20px 20px 50px 20px;
+}
+
+#footer .spacer {
+  display: inline-block;
+  margin: 0 10px;
+}

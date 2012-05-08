@@ -2,12 +2,13 @@ require 'book'
 require 'store'
 
 class Fetcher
-  @queue = :fetch
+  include Sidekiq::Worker
+  sidekiq_options queue: :fetch, timeout: 15
 
-  def self.perform(isbn, store_name)
+  def perform(isbn, store_name)
     store = Store::STORES[store_name.to_sym]
     url = store[:url].gsub('[isbn]',isbn.to_s)
-    book = Book.new(isbn, Resque.redis)
+    book = Book.new(isbn, Redis.new)
 
     begin
       agent = ::Mechanize.new { |agent|
