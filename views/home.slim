@@ -10,7 +10,7 @@ div.content-inner
 
 javascript:
   $('#isbn-submit').click(function() {
-    var isbn = $('#isbn-form input[name=isbn]').val().trim();
+    var isbn = $.trim($('#isbn-form input[name=isbn]').val());
     if(isbn != '') {
       window.location.href = 'http://' + window.location.host + '/isbn/' + isbn +'/price';
     }
