@@ -47,7 +47,7 @@ class Book < Struct.new(:isbn, :redis)
   end
 
   def num_prices
-    redis.smembers(prices_key).size
+    redis.scard(prices_key)
   end
 
   def prices(current_stores=0)
