@@ -73,8 +73,10 @@ function processInfo(info) {
     if(info.book_name != undefined)
       $("#book_name").html(info.book_name);
     if(info.author_name != undefined)
-      $("#author_name").html("by " + info.author_name);
+      $("#author_name").html(info.author_name);
     if(info.image_url != undefined)
       $("#book_img").attr('src', info.image_url);
+
+    $('.book_info').show();
   }
 }
