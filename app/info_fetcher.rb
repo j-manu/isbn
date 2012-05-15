@@ -17,7 +17,7 @@ class InfoFetcher
 
       info[:book_name] = page.search(store[:book_name]).text.strip
       info[:author_name] = page.search(store[:author_name]).text.strip
-      info[:image_url] = page.search(store[:image_url]).first.attributes['src'].text
+      info[:image_url] = page.search(store[:image]).first.attributes['src'].text
     rescue
     end
     Book.new(isbn, Redis.new).cache_info(info)

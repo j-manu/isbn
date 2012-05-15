@@ -1,6 +1,6 @@
 require 'multi_json'
 class Store
-  INFO_STORES = { flipkart: { url: 'http://www.flipkart.com/search.php?query=[isbn]', book_name: 'div.mprod-summary-title h1', author_name: 'div.mprod-summary-title h2', image_url: '#mprodimg-id img' } }
+  INFO_STORES = { flipkart: { url: 'http://www.flipkart.com/search.php?query=[isbn]', book_name: 'div.mprod-summary-title h1', author_name: 'div.mprod-summary-title .primary-info a', image: '#visible-image-small' } }
 
   STORES = {flipkart: {
               url: 'http://www.flipkart.com/search.php?query=[isbn]',
