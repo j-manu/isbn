@@ -2,6 +2,13 @@ h4 = "ISBN #{isbn}"
 
 div.content-inner
   p#error style='display:none' An error occurred
+  div.book_info
+    img#book_img
+    div style='float:left'
+      br
+      p#book_name
+      p#author_name
+  div style='clear:left'
   div.message
     h1
       | Checking Prices <img src='/images/indicator.gif' id='indicator'/>

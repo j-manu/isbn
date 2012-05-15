@@ -1,5 +1,7 @@
 require 'multi_json'
 class Store
+  INFO_STORES = { flipkart: { url: 'http://www.flipkart.com/search.php?query=[isbn]', book_name: 'div.mprod-summary-title h1', author_name: 'div.mprod-summary-title h2', image_url: '#mprodimg-id img' } }
+
   STORES = {flipkart: {
               url: 'http://www.flipkart.com/search.php?query=[isbn]',
               pattern: 'span#fk-mprod-our-id'},
@@ -37,7 +39,5 @@ class Store
     def num_stores
       STORES.size
     end
-
   end
-
 end

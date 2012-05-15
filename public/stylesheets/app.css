@@ -56,19 +56,19 @@ body {
 }
 
 #prices {
-  width: 500px;
+  width: 600px;
   margin: 20px auto;
   font-size: 18px;
 }
 
 .store {
   display: inline-block;
-  width: 200px;
+  width: 250px;
 }
 
 .price {
   display: inline-block;
-  width: 200px;
+  width: 250px;
   text-align: right;
 }
 
@@ -88,4 +88,19 @@ body {
 #footer .spacer {
   display: inline-block;
   margin: 0 10px;
+}
+
+.book_info {
+  margin: auto; width: 600px;
+}
+#book_img {
+  float: left;
+}
+#book_name {
+  font-size: 20px;
+  margin: 0 0 0 10px;
+}
+#author_name {
+  font-size: 14px;
+  margin: 10px 0 0 10px;
 }

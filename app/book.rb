@@ -1,5 +1,4 @@
 class Book < Struct.new(:isbn, :redis)
-
   class << self
     def is_isbn?(text)
       text = text.strip.gsub('-','').upcase if text
@@ -46,17 +45,22 @@ class Book < Struct.new(:isbn, :redis)
     end
   end
 
+  def cache_info(book_info)
+    self.info = book_info.to_json
+  end
+
   def num_prices
     redis.scard(prices_key)
   end
 
   def prices(current_stores=0)
+    book_info = MultiJson.load(info) if info
     prices = redis.smembers(prices_key)
     # hack. if the price is nil, give sort a large number so it ranks in the bottom.
     prices = prices.map {|p| MultiJson.load p}.sort_by {|v| v['price'] || 999999999999}
     fetched_stores = prices.size
     status = fetched_stores == Store.num_stores ? 'complete' : (fetched_stores == current_stores ? 'fetching' : 'progress')
-    {status: status, prices: prices}
+    {status: status, prices: prices, info: book_info }
   end
 
   def delete_prices
@@ -71,14 +75,21 @@ class Book < Struct.new(:isbn, :redis)
 
     self.status = 'fetching'
     self.num_stores = Store.num_stores
+
     delete_prices
 
     # we have to manually insert into queue instead of using Sidekiq
     # because Sidekiq won't be able to deal with async redis being used
     # by goliath
-    redis.sadd 'isbn:queues', 'fetch'
+    %w(fetch info).each do |q_name|
+      redis.sadd 'isbn:queues', q_name
+    end
     Store::STORES.keys.each do |store_name|
       redis.rpush('isbn:queue:fetch', {class: 'Fetcher', args: [isbn.to_s, store_name.to_s]}.to_json)
+    end
+
+    unless info
+      redis.rpush('isbn:queue:info', {class: 'InfoFetcher', args: [isbn.to_s]}.to_json)
     end
   end
 
@@ -88,9 +99,7 @@ class Book < Struct.new(:isbn, :redis)
     redis.respond_to?(:namespace) ? isbn : "isbn:#{isbn}"
   end
 
-
   def prices_key
     key + ':prices'
   end
-
 end
