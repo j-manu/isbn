@@ -4,6 +4,7 @@ Parsing code based on Swaroop's isbn.net.in - https://github.com/swaroopch/isbnn
 
 Getting it up and running
 ------
+You need to have Redis running locally in the default port.
 
 ```ruby
   bundle install
