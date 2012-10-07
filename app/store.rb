@@ -15,7 +15,7 @@ class Store
               pattern: '.variant-final-price'},
             landmark: {
               url: 'http://www.landmarkonthenet.com/product/SearchPaging.aspx?code=[isbn]&type=0&num=0',
-              pattern: '.pricebox .price-current .WebRupee-print'},
+              pattern: '.pricebox .price-current'},
             homeshop18: {
               url: 'http://www.homeshop18.com/search:[isbn]/',
               pattern: '.pdp_details_price .pdp_details_hs18Price'}
