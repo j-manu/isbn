@@ -3,7 +3,7 @@ require 'store'
 
 class Fetcher
   include Sidekiq::Worker
-  sidekiq_options queue: :fetch, timeout: 30
+  sidekiq_options queue: :fetch, timeout: 60
 
   def perform(isbn, store_name)
     store = Store::STORES[store_name.to_sym]
@@ -12,8 +12,8 @@ class Fetcher
 
     begin
       agent = ::Mechanize.new { |agent|
-        agent.open_timeout   = 10
-        agent.read_timeout   = 20
+        agent.open_timeout   = 20
+        agent.read_timeout   = 40
         agent.follow_meta_refresh = true
       }
       page = agent.get(url)
